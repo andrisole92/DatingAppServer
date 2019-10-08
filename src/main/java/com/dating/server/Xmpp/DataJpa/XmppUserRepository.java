@@ -19,7 +19,7 @@ public interface XmppUserRepository extends JpaRepository<XmppUser, String> {
     @Override
     Page<XmppUser> findAll(Pageable pageable);
 
-    @Query(value = "SELECT * FROM users WHERE ST_DWithin(geom, ST_SetSRID(ST_MakePoint(?1, ?2), 3857), ?3)", nativeQuery = true)
+    @Query(value = "SELECT * FROM users WHERE ST_DWithin(geom, ST_SetSRID(ST_MakePoint(?1, ?2), 26910), ?3)", nativeQuery = true)
     Page<XmppUser> findAllByCoordinates(double lat, double lng, double maxDistance, Pageable pageable);
 
 //    @Query(value = "SELECT * FROM users WHERE password = 'password' LIMIT 10", nativeQuery = true)

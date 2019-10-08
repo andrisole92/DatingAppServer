@@ -42,7 +42,7 @@ public class XmppUser {
     @JsonIgnore
     private Date created_at = new Date(System.currentTimeMillis());
 
-    @Column(name = "geom", columnDefinition = "Point")
+    @Column(name = "geom", columnDefinition = "point")
     @JsonSerialize(using = PointToJsonSerializer.class)
     @JsonDeserialize(using = JsonToPointDeserializer.class)
     private Point geom;

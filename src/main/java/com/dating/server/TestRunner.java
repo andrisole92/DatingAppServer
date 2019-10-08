@@ -61,7 +61,7 @@ public class TestRunner implements CommandLineRunner {
 ////        long count = xmppUserRepository.count();
         try {
 //            Page<XmppUser> xmppUsers = xmppUserRepository.findAll(PageRequest.of(0,20, Sort.by("password").descending()));
-            Page<XmppUser> xmppUsers = xmppUserRepository.findAllByCoordinates(43,79,0.1,PageRequest.of(0,20));
+            Page<XmppUser> xmppUsers = xmppUserRepository.findAllByCoordinates(43,79,1000,PageRequest.of(0,20));
             for (XmppUser user : xmppUsers) {
                 log.info(user.toString());
             }
@@ -70,18 +70,19 @@ public class TestRunner implements CommandLineRunner {
         }
 //        System.out.println("Successfully got users" + count);
 
-        int i = 1000000;
+        int i = 0;
         int x = 41;
         int y = 77;
 //        log.info(faker.artist().name());
 
-        while (i < 0) {
+        while (i < 1000000) {
             try {
                 XmppUser xmppUser = new XmppUser();
                 xmppUser.setUsername("user" + i);
                 xmppUser.setFull_name(faker.name().fullName());
                 Point p = geometryFactory.createPoint(new Coordinate(faker.number().randomDouble(2, x, x + 4), faker.number().randomDouble(2, y, y + 4)));
-                p.setSRID(3857);
+//                p.setSRID(3857);
+                p.setSRID(26910);
 
 
                 xmppUser.setGeom(p);
