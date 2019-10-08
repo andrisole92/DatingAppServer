@@ -23,7 +23,7 @@ CREATE TABLE users (
     salt text NOT NULL DEFAULT '',
     iterationcount integer NOT NULL DEFAULT 0,
     created_at TIMESTAMP NOT NULL DEFAULT now(),
-    geom geometry(Point,3857),
+    geom GEOMETRY(Point, 26910),
     full_name text
 
 );
