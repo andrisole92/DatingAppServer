@@ -23,8 +23,10 @@ public class UserChannel {
     @JoinColumn(name = "channel_id")
     Channel channel;
 
-    int rating;
-
+    public UserChannel(User user, Channel channel){
+        this.user = user;
+        this.channel = channel;
+    }
 }
 
 //@Embeddable

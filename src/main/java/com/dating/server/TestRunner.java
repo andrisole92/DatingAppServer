@@ -31,7 +31,7 @@ public class TestRunner implements CommandLineRunner {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private MatchesRepository matchesRepository;
+    private MatchRepository matchRepository;
     @Autowired
     private LikeRepository likeRepository;
 //    @Autowired

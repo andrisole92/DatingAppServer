@@ -35,6 +35,12 @@ public class Match {
     @JoinColumn(name = "channel_id", referencedColumnName = "id")
     private Channel channel;
 
+    public Match(String uid1, String uid2, Channel channel){
+        this.uid1 = uid1;
+        this.uid2 = uid2;
+        this.channel = channel;
+    }
+
     public static class MatchId implements Serializable {
 
         @Getter

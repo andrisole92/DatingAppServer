@@ -1,11 +1,11 @@
 package com.dating.server.controller;
 
 import com.dating.server.model.Like;
-import com.dating.server.model.User;
+import com.dating.server.model.Match;
 import com.dating.server.payload.ApiResponse;
 import com.dating.server.payload.LikeRequest;
 import com.dating.server.payload.LikeResponse;
-import com.dating.server.payload.LoginRequest;
+import com.dating.server.repository.MatchRepository;
 import com.dating.server.repository.UserRepository;
 import com.dating.server.security.UserPrincipal;
 import lombok.extern.apachecommons.CommonsLog;
@@ -17,17 +17,11 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.dating.server.repository.LikeRepository;
-import com.dating.server.feature.likes.LikesFeature;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.data.domain.Example;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8100")
@@ -40,6 +34,9 @@ public class LikeController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    MatchRepository matchRepository;
 
     public LikeController(LikeRepository likeRepository) {
         this.likeRepository = likeRepository;
@@ -71,6 +68,7 @@ public class LikeController {
 
         boolean e = likeRepository.exists(Example.of(new Like(likedUsername, senderUsername, isLike)));
         if (e) {
+            matchRepository.save(new Match(senderUsername, likedUsername, ));
             return ResponseEntity.ok().body(new LikeResponse(true));
 
 //            Optional<User> user = userRepository.findByUsername(likedUsername);
