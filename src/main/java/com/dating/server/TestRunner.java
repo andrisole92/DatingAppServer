@@ -1,15 +1,14 @@
 package com.dating.server;
 
 
-import com.dating.server.JPA.Like;
-import com.dating.server.JPA.LikeRepository;
-import com.dating.server.JPA.MatchesRepository;
+import com.dating.server.model.*;
+import com.dating.server.twiliowrapper.TwilioSMS;
+import com.dating.server.repository.*;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 
-import com.dating.server.Xmpp.DataJpa.XmppLastRepository;
-import com.dating.server.Xmpp.DataJpa.XmppUser;
-import com.dating.server.Xmpp.DataJpa.XmppUserRepository;
+//import com.dating.server.Xmpp.DataJpa.XmppLastRepository;
+//import com.dating.server.Xmpp.DataJpa.XmppUserRepository;
 import com.github.javafaker.Faker;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Point;
@@ -22,8 +21,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
-import java.sql.Date;
-
 @Component
 @CommonsLog(topic = "CounterLog")
 public class TestRunner implements CommandLineRunner {
@@ -32,17 +29,26 @@ public class TestRunner implements CommandLineRunner {
 //    @Autowired
 //    private CharacterRepository repository;
     @Autowired
-    private XmppUserRepository xmppUserRepository;
+    private UserRepository userRepository;
     @Autowired
     private MatchesRepository matchesRepository;
     @Autowired
     private LikeRepository likeRepository;
+//    @Autowired
+//    private XmppLastRepository xmppLastRepository;
     @Autowired
-    private XmppLastRepository xmppLastRepository;
+    private ChannelRepository channelRepository;
+    @Autowired
+    private MessagesRepository messagesRepository;
+
+    @Autowired
+    private TwilioSMS twilioSMS;
+
     private GeometryFactory geometryFactory = new GeometryFactory();
 
     @Override
     public void run(final String... args) throws Exception {
+        twilioSMS.sendSMS("+16478065791", "Hello World!");
         Faker faker = new Faker();
 
         // first drop the database so that we can run this multiple times with the same dataset
@@ -61,23 +67,23 @@ public class TestRunner implements CommandLineRunner {
 ////        long count = xmppUserRepository.count();
         try {
 //            Page<XmppUser> xmppUsers = xmppUserRepository.findAll(PageRequest.of(0,20, Sort.by("password").descending()));
-            Page<XmppUser> xmppUsers = xmppUserRepository.findAllByCoordinates(43,79,1000,PageRequest.of(0,20));
-            for (XmppUser user : xmppUsers) {
-                log.info(user.toString());
-            }
+//            Page<XmppUser> xmppUsers = xmppUserRepository.findAllByCoordinates(43, 79, 1000, PageRequest.of(0, 20));
+//            for (XmppUser user : xmppUsers) {
+//                log.info(user.toString());
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
 //        System.out.println("Successfully got users" + count);
 
         int i = 0;
-        int x = 41;
-        int y = 77;
+        int x = 38;
+        int y = 72;
 //        log.info(faker.artist().name());
 
-        while (i < 1000000) {
+        while (i < 10000) {
             try {
-                XmppUser xmppUser = new XmppUser();
+                User xmppUser = new User();
                 xmppUser.setUsername("user" + i);
                 xmppUser.setFull_name(faker.name().fullName());
                 Point p = geometryFactory.createPoint(new Coordinate(faker.number().randomDouble(2, x, x + 4), faker.number().randomDouble(2, y, y + 4)));
@@ -87,10 +93,10 @@ public class TestRunner implements CommandLineRunner {
 
                 xmppUser.setGeom(p);
                 xmppUser.setPassword("password");
-                xmppUser.setCreated_at(new Date(System.currentTimeMillis()));
-                xmppUser.setSalt("");
-                xmppUser.setServerkey("");
-                xmppUserRepository.save(xmppUser);
+//                xmppUser.setCreated_at(new Date(System.currentTimeMillis()));
+//                xmppUser.setSalt("");
+//                xmppUser.setServerkey("");
+                userRepository.save(xmppUser);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -109,9 +115,18 @@ public class TestRunner implements CommandLineRunner {
 
         try {
 //            Page<XmppUser> xmppUsers = xmppUserRepository.findAll(PageRequest.of(0,20, Sort.by("password").descending()));
-            Page<Like> likes = likeRepository.findAll(PageRequest.of(0,20));
+            Page<Like> likes = likeRepository.findAll(PageRequest.of(0, 20));
             for (Like like : likes) {
                 log.info(like.toString());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            Page<Channel> channels = channelRepository.findAll(PageRequest.of(0, 20));
+            for (Channel channel : channels) {
+                log.info(channel.toString());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -126,9 +141,23 @@ public class TestRunner implements CommandLineRunner {
 //            e.printStackTrace();
 //        }
 //        Match m = new Match();
-//        m.setUid1("uid1");
-//        m.setUid2("uid2");
+//        m.setUid1("user44");
+//        m.setUid2("user1");
+//        Optional<Channel> c = channelRepository.findById((long) 1);
+//        m.setChannel(c);
 //        matchesRepository.save(m);
+//        Message message = new Message("user2","DemoBody",c.get());
+//        Message message = new Message();
+//        message.setSender("user2");
+//        message.setBody("Test Body");
+//        log.info(c.get());
+//        message.setChannel(c.get());
+//        messagesRepository.save(new Message("user2", "TESTBODY", c));
+//        messagesRepository.save(new Message("user2", "TESTBODY", c));
+//        messagesRepository.save(new Message("user2", "TESTBODY", c));
+//        messagesRepository.save(new Message("user2", "TESTBODY", c));
+//        messagesRepository.save(message);
+//        messagesRepository.save(m);
     }
 
     public Geometry wktToGeometry(String wellKnownText)
