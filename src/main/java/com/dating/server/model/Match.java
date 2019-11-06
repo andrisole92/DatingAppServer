@@ -1,5 +1,6 @@
 package com.dating.server.model;
 
+import com.dating.server.model.audit.DateAudit;
 import lombok.Data;
 import lombok.Getter;
 import org.hibernate.annotations.Generated;
@@ -11,14 +12,14 @@ import java.util.Objects;
 
 @Data
 @Entity // This tells Hibernate to make a table out of this class
-@Table(name = "matches")
+@Table(name = "_match")
 @IdClass(Match.MatchId.class)
 @Embeddable
-public class Match {
+public class Match extends DateAudit implements Serializable {
 
-    @Column(columnDefinition = "serial")
-    @Generated(GenerationTime.INSERT)
-    private String id;
+//    @Column(columnDefinition = "serial")
+//    @Generated(GenerationTime.INSERT)
+//    private String id;
 
     @Id
     private String uid1;
@@ -32,8 +33,12 @@ public class Match {
     private boolean haveConversation;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "channel_id", referencedColumnName = "id")
+    @JoinColumn(name = "_channel_id", referencedColumnName = "id")
     private Channel channel;
+
+    public Match(){
+
+    }
 
     public Match(String uid1, String uid2, Channel channel){
         this.uid1 = uid1;

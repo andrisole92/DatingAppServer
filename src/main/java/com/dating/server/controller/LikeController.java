@@ -1,5 +1,6 @@
 package com.dating.server.controller;
 
+import com.dating.server.model.Channel;
 import com.dating.server.model.Like;
 import com.dating.server.model.Match;
 import com.dating.server.payload.ApiResponse;
@@ -20,8 +21,10 @@ import com.dating.server.repository.LikeRepository;
 import org.springframework.data.domain.Example;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.HashSet;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8100")
@@ -54,6 +57,7 @@ public class LikeController {
 
     @RequestMapping(value = "/like", method = RequestMethod.POST)
     @ResponseBody
+    @Transactional
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> like(
             @Valid @RequestBody LikeRequest likeRequest,
@@ -63,13 +67,36 @@ public class LikeController {
         String senderUsername = principal.getName();
         String likedUsername = likeRequest.getLikedUsername();
         boolean isLike = likeRequest.isLike();
-
-        likeRepository.save(new Like(senderUsername, likedUsername, isLike));
+        log.info("senderUsername: "+senderUsername);
+        log.info("likedUsername: "+likedUsername);
+        Like l = likeRepository.save(new Like(senderUsername, likedUsername, isLike));
 
         boolean e = likeRepository.exists(Example.of(new Like(likedUsername, senderUsername, isLike)));
+        log.info("Match: "+e);
         if (e) {
-            matchRepository.save(new Match(senderUsername, likedUsername, ));
-            return ResponseEntity.ok().body(new LikeResponse(true));
+            try{
+                log.info("Creating the channel");
+                Channel channel = new Channel();
+                channel.getUsers().add(userRepository.getOne(senderUsername));
+                channel.getUsers().add(userRepository.getOne(likedUsername));
+                log.info("Channel created: "+channel.toString());
+//                UserChannel userChannel1 = new UserChannel(userRepository.getOne(senderUsername), channel);
+//                UserChannel userChannel2 = new UserChannel(userRepository.getOne(likedUsername), channel);
+//                log.info("UserChannel created: "+userChannel1.toString());
+//                HashSet<UserChannel> hashSet = new HashSet<UserChannel>();
+//                hashSet.add(userChannel1);
+//                channel.setUserChannels(hashSet);
+//                channel.getUserChannels().add(new UserChannel(userRepository.getOne(senderUsername), channel));
+//                channel.getUserChannels().add(new UserChannel(userRepository.getOne(likedUsername), channel));
+//                log.info(channel.toString());
+                Match m = matchRepository.save(new Match(senderUsername, likedUsername, channel));
+                log.info(m.toString());
+                return ResponseEntity.ok().body(new LikeResponse(true));
+            } catch (Exception exc){
+                exc.printStackTrace();
+                return ResponseEntity.ok().body(new ApiResponse(false, exc.getMessage()));
+            }
+
 
 //            Optional<User> user = userRepository.findByUsername(likedUsername);
 //            if (user.isPresent()){

@@ -21,6 +21,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.IntStream;
+
 @Component
 @CommonsLog(topic = "CounterLog")
 public class TestRunner implements CommandLineRunner {
@@ -34,7 +37,7 @@ public class TestRunner implements CommandLineRunner {
     private MatchRepository matchRepository;
     @Autowired
     private LikeRepository likeRepository;
-//    @Autowired
+    //    @Autowired
 //    private XmppLastRepository xmppLastRepository;
     @Autowired
     private ChannelRepository channelRepository;
@@ -80,11 +83,56 @@ public class TestRunner implements CommandLineRunner {
         int x = 38;
         int y = 72;
 //        log.info(faker.artist().name());
+        for (int f = 0; f < 30000; f++) {
+            Channel channel = new Channel();
+            channel.setId((long) f);
+            int[] stream = ThreadLocalRandom.current().ints(0, 1000).distinct().limit(5).toArray();
+            channel.getUsers().add(userRepository.getOne("user" + stream[0]));
+            channel.getUsers().add(userRepository.getOne("user" + stream[1]));
+//            channel.getUsers().add(userRepository.getOne("user"+(f+1)));
+            try {
+                channelRepository.save(channel);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
-        while (i < 10000) {
+        for (int f = 0; f < 3000000; f++) {
+//            int[] stream = ThreadLocalRandom.current().ints(0, 1000).distinct().limit(1).toArray();
+//
+//            Channel c = channelRepository.getOne(s)
+            Message message = new Message();
+            channel.setId((long) f);
+            int[] stream = ThreadLocalRandom.current().ints(0, 1000).distinct().limit(5).toArray();
+            channel.getUsers().add(userRepository.getOne("user" + stream[0]));
+            channel.getUsers().add(userRepository.getOne("user" + stream[1]));
+//            channel.getUsers().add(userRepository.getOne("user"+(f+1)));
+            try {
+                channelRepository.save(channel);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        for (int f = 0; f < 1000000; f++) {
+            Channel channel = new Channel();
+            channel.setId((long) f);
+            int[] stream = ThreadLocalRandom.current().ints(0, 99999).distinct().limit(5).toArray();
+            channel.getUsers().add(userRepository.getOne("user" + stream[0]));
+            channel.getUsers().add(userRepository.getOne("user" + stream[1]));
+//            channel.getUsers().add(userRepository.getOne("user"+(f+1)));
+            try {
+                channelRepository.save(channel);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        for (int u = 0; u < 0; u++) {
             try {
                 User xmppUser = new User();
-                xmppUser.setUsername("user" + i);
+                xmppUser.setUsername("user" + u);
                 xmppUser.setFull_name(faker.name().fullName());
                 Point p = geometryFactory.createPoint(new Coordinate(faker.number().randomDouble(2, x, x + 4), faker.number().randomDouble(2, y, y + 4)));
 //                p.setSRID(3857);
@@ -100,7 +148,7 @@ public class TestRunner implements CommandLineRunner {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            i++;
+//            i++;
         }
 
 //        Like l = new Like("1","2",true);
@@ -112,25 +160,25 @@ public class TestRunner implements CommandLineRunner {
 //        } catch (Exception e){
 //            e.printStackTrace();
 //        }
-
-        try {
-//            Page<XmppUser> xmppUsers = xmppUserRepository.findAll(PageRequest.of(0,20, Sort.by("password").descending()));
-            Page<Like> likes = likeRepository.findAll(PageRequest.of(0, 20));
-            for (Like like : likes) {
-                log.info(like.toString());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
-            Page<Channel> channels = channelRepository.findAll(PageRequest.of(0, 20));
-            for (Channel channel : channels) {
-                log.info(channel.toString());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//
+//        try {
+////            Page<XmppUser> xmppUsers = xmppUserRepository.findAll(PageRequest.of(0,20, Sort.by("password").descending()));
+//            Page<Like> likes = likeRepository.findAll(PageRequest.of(0, 20));
+//            for (Like like : likes) {
+//                log.info(like.toString());
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        try {
+//            Page<Channel> channels = channelRepository.findAll(PageRequest.of(0, 20));
+//            for (Channel channel : channels) {
+//                log.info(channel.toString());
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
 //        try {
 //            List<Like> likes = likeRepository.getMatchesAsLikes("a");

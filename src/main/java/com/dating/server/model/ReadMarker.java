@@ -1,5 +1,6 @@
 package com.dating.server.model;
 
+import com.dating.server.model.audit.DateAudit;
 import lombok.Data;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
@@ -11,7 +12,7 @@ import java.util.Date;
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "readMarker")
 //@Embeddable
-public class ReadMarker {
+public class ReadMarker extends DateAudit {
     @Id
     @Column(columnDefinition = "serial")
     @Generated(GenerationTime.INSERT)

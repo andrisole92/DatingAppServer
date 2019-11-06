@@ -63,26 +63,29 @@ public class User extends DateAudit implements Serializable {
 //    @NotBlank
     @Size(max = 40)
     @Email
+    @JsonIgnore
     private String email;
 
     @NaturalId
 //    @NotBlank
     @Size(max = 40)
+    @JsonIgnore
     private String phone;
 
     @NotBlank
     @Size(max = 100)
+    @JsonIgnore
     private String password;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JsonIgnore
     private Set<Role> roles = new HashSet<>();
 
-
-
     @Column(name = "geom", columnDefinition = "point")
+    @JsonIgnore
     @JsonSerialize(using = PointToJsonSerializer.class)
     @JsonDeserialize(using = JsonToPointDeserializer.class)
     private Point geom;
@@ -97,8 +100,10 @@ public class User extends DateAudit implements Serializable {
     @JsonIgnore
     private double distance;
 
-    @OneToMany(mappedBy = "user")
-    Set<UserChannel> userChannels;
+
+
+//    @OneToMany(mappedBy = "user")
+//    Set<UserChannel> userChannels;
 
     public User() {
 

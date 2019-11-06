@@ -1,5 +1,6 @@
 package com.dating.server.model;
 
+import com.dating.server.model.audit.DateAudit;
 import lombok.Data;
 import lombok.Getter;
 
@@ -12,13 +13,17 @@ import java.util.Objects;
 @Table(name = "_like")
 @IdClass(Like.LikeId.class)
 @Embeddable
-public class Like {
+public class Like extends DateAudit implements Serializable {
 
     @Id
     private String senderUsername;
     @Id
     private String likedUsername;
     private boolean l;
+
+    public Like(){
+
+    }
 
     public Like(String senderUsername, String likedUsername, boolean l) {
         this.senderUsername = senderUsername;
@@ -48,8 +53,8 @@ public class Like {
                 return false;
             }
             LikeId likeId = (LikeId) o;
-            return Objects.equals(senderUsername, likeId.getSenderUsername()) &&
-                    Objects.equals(likedUsername, likeId.getLikedUsername());
+            return (Objects.equals(senderUsername, likeId.getSenderUsername()) &&
+                    Objects.equals(likedUsername, likeId.getLikedUsername())) || (Objects.equals(senderUsername, likedUsername));
         }
 
         @Override

@@ -13,6 +13,5 @@ public class LikeRequest {
     @NotBlank
     private String likedUsername;
 
-    @NotBlank
     private boolean like;
 }

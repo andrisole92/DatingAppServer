@@ -13,7 +13,7 @@ import javax.persistence.MappedSuperclass;
         value = {"createdBy", "updatedBy"},
         allowGetters = true
 )
-public abstract class UserDateAudit extends DateAudit {
+public abstract class UserAudit {
 
     @CreatedBy
     private String createdBy;
