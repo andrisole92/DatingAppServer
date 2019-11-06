@@ -97,22 +97,22 @@ public class TestRunner implements CommandLineRunner {
             }
         }
 
-        for (int f = 0; f < 3000000; f++) {
-//            int[] stream = ThreadLocalRandom.current().ints(0, 1000).distinct().limit(1).toArray();
-//
-//            Channel c = channelRepository.getOne(s)
-            Message message = new Message();
-            channel.setId((long) f);
-            int[] stream = ThreadLocalRandom.current().ints(0, 1000).distinct().limit(5).toArray();
-            channel.getUsers().add(userRepository.getOne("user" + stream[0]));
-            channel.getUsers().add(userRepository.getOne("user" + stream[1]));
-//            channel.getUsers().add(userRepository.getOne("user"+(f+1)));
-            try {
-                channelRepository.save(channel);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+//        for (int f = 0; f < 3000000; f++) {
+////            int[] stream = ThreadLocalRandom.current().ints(0, 1000).distinct().limit(1).toArray();
+////
+////            Channel c = channelRepository.getOne(s)
+//            Message message = new Message();
+//            channel.setId((long) f);
+//            int[] stream = ThreadLocalRandom.current().ints(0, 1000).distinct().limit(5).toArray();
+//            channel.getUsers().add(userRepository.getOne("user" + stream[0]));
+//            channel.getUsers().add(userRepository.getOne("user" + stream[1]));
+////            channel.getUsers().add(userRepository.getOne("user"+(f+1)));
+//            try {
+//                channelRepository.save(channel);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
 
         for (int f = 0; f < 1000000; f++) {
             Channel channel = new Channel();
