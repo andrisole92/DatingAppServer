@@ -68,15 +68,15 @@ public class TestRunner implements CommandLineRunner {
 //        System.out.println(String.format("Found %s", repository.findById(nedStark.getId())));
 
 ////        long count = xmppUserRepository.count();
-        try {
+//        try {
 //            Page<XmppUser> xmppUsers = xmppUserRepository.findAll(PageRequest.of(0,20, Sort.by("password").descending()));
 //            Page<XmppUser> xmppUsers = xmppUserRepository.findAllByCoordinates(43, 79, 1000, PageRequest.of(0, 20));
 //            for (XmppUser user : xmppUsers) {
 //                log.info(user.toString());
 //            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 //        System.out.println("Successfully got users" + count);
 
         int i = 0;
