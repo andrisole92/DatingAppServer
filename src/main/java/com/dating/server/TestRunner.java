@@ -101,30 +101,10 @@ public class TestRunner implements CommandLineRunner {
 //            }
 //        }
 
-        for (int f = 0; f < 1000000; f++) {
-//            int[] stream = ThreadLocalRandom.current().ints(0, 1000).distinct().limit(1).toArray();
-//
-//            Channel c = channelRepository.getOne(s)
-            Message message = new Message();
-            int[] stream = ThreadLocalRandom.current().ints(1, 1999).distinct().limit(2).toArray();
-            Channel channel = em.getReference(Channel.class, (long) stream[0]);
-            message.setSender(channel.getUsers().get(0).getUsername());
-            message.setChannel(channel);
-            message.setBody(faker.rickAndMorty().quote());
-//            channel.getUsers().add(em.getReference(User.class, "user"+stream[1]));
-//            channel.setId((long) f);
-//            channel.getUsers().add(userRepository.getOne("user" + stream[0]));
-//            channel.getUsers().add(userRepository.getOne("user" + stream[1]));
-//            channel.getUsers().add(userRepository.getOne("user"+(f+1)));
-            try {
-                messagesRepository.save(message);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+
 //
 
-        for (int u = 0; u < 0; u++) {
+        for (int u = 0; u < 1000; u++) {
             try {
                 User xmppUser = new User();
                 xmppUser.setUsername("user" + u);
@@ -141,10 +121,10 @@ public class TestRunner implements CommandLineRunner {
                 e.printStackTrace();
             }
         }
-        for (int f = 0; f < 0; f++) {
+        for (int f = 0; f < 2000; f++) {
             Channel channel = new Channel();
             channel.setId((long) f);
-            int[] stream = ThreadLocalRandom.current().ints(0, 100).distinct().limit(5).toArray();
+            int[] stream = ThreadLocalRandom.current().ints(0, 30).distinct().limit(2).toArray();
 //            channel.getUsers().add(userRepository.getOne("user" + stream[0]));
 //            channel.getUsers().add(userRepository.getOne("user" + stream[1]));
             channel.getUsers().add(em.getReference(User.class, "user"+stream[0]));
@@ -157,7 +137,27 @@ public class TestRunner implements CommandLineRunner {
             }
         }
 //
-
+        for (int f = 0; f < 0; f++) {
+//            int[] stream = ThreadLocalRandom.current().ints(0, 1000).distinct().limit(1).toArray();
+//
+//            Channel c = channelRepository.getOne(s)
+            Message message = new Message();
+            int[] stream = ThreadLocalRandom.current().ints(1, 1999).distinct().limit(2).toArray();
+            Channel channel = em.getReference(Channel.class, (long) stream[0]);
+            message.setSender(channel.getUsers().get(ThreadLocalRandom.current().nextInt(0, 1 + 1)).getUsername());
+            message.setChannel(channel);
+            message.setBody(faker.rickAndMorty().quote());
+//            channel.getUsers().add(em.getReference(User.class, "user"+stream[1]));
+//            channel.setId((long) f);
+//            channel.getUsers().add(userRepository.getOne("user" + stream[0]));
+//            channel.getUsers().add(userRepository.getOne("user" + stream[1]));
+//            channel.getUsers().add(userRepository.getOne("user"+(f+1)));
+            try {
+                messagesRepository.save(message);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
 
 //        Like l = new Like("1","2",true);
