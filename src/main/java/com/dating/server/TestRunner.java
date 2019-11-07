@@ -21,12 +21,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
 @Component
 @CommonsLog(topic = "CounterLog")
 public class TestRunner implements CommandLineRunner {
+    @PersistenceContext
+    private EntityManager em;
     //    @Autowired
 //    private ArangoOperations operations;
 //    @Autowired
@@ -51,7 +55,7 @@ public class TestRunner implements CommandLineRunner {
 
     @Override
     public void run(final String... args) throws Exception {
-        twilioSMS.sendSMS("+16478065791", "Hello World!");
+//        twilioSMS.sendSMS("+16478065791", "Hello World!");
         Faker faker = new Faker();
 
         // first drop the database so that we can run this multiple times with the same dataset
@@ -83,25 +87,8 @@ public class TestRunner implements CommandLineRunner {
         int x = 38;
         int y = 72;
 //        log.info(faker.artist().name());
-        for (int f = 0; f < 30000; f++) {
-            Channel channel = new Channel();
-            channel.setId((long) f);
-            int[] stream = ThreadLocalRandom.current().ints(0, 1000).distinct().limit(5).toArray();
-            channel.getUsers().add(userRepository.getOne("user" + stream[0]));
-            channel.getUsers().add(userRepository.getOne("user" + stream[1]));
-//            channel.getUsers().add(userRepository.getOne("user"+(f+1)));
-            try {
-                channelRepository.save(channel);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-//        for (int f = 0; f < 3000000; f++) {
-////            int[] stream = ThreadLocalRandom.current().ints(0, 1000).distinct().limit(1).toArray();
-////
-////            Channel c = channelRepository.getOne(s)
-//            Message message = new Message();
+//        for (int f = 0; f < 30000; f++) {
+//            Channel channel = new Channel();
 //            channel.setId((long) f);
 //            int[] stream = ThreadLocalRandom.current().ints(0, 1000).distinct().limit(5).toArray();
 //            channel.getUsers().add(userRepository.getOne("user" + stream[0]));
@@ -115,19 +102,27 @@ public class TestRunner implements CommandLineRunner {
 //        }
 
         for (int f = 0; f < 1000000; f++) {
-            Channel channel = new Channel();
-            channel.setId((long) f);
-            int[] stream = ThreadLocalRandom.current().ints(0, 99999).distinct().limit(5).toArray();
-            channel.getUsers().add(userRepository.getOne("user" + stream[0]));
-            channel.getUsers().add(userRepository.getOne("user" + stream[1]));
+//            int[] stream = ThreadLocalRandom.current().ints(0, 1000).distinct().limit(1).toArray();
+//
+//            Channel c = channelRepository.getOne(s)
+            Message message = new Message();
+            int[] stream = ThreadLocalRandom.current().ints(1, 1999).distinct().limit(2).toArray();
+            Channel channel = em.getReference(Channel.class, (long) stream[0]);
+            message.setSender(channel.getUsers().get(0).getUsername());
+            message.setChannel(channel);
+            message.setBody(faker.rickAndMorty().quote());
+//            channel.getUsers().add(em.getReference(User.class, "user"+stream[1]));
+//            channel.setId((long) f);
+//            channel.getUsers().add(userRepository.getOne("user" + stream[0]));
+//            channel.getUsers().add(userRepository.getOne("user" + stream[1]));
 //            channel.getUsers().add(userRepository.getOne("user"+(f+1)));
             try {
-                channelRepository.save(channel);
+                messagesRepository.save(message);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-
+//
 
         for (int u = 0; u < 0; u++) {
             try {
@@ -141,15 +136,29 @@ public class TestRunner implements CommandLineRunner {
 
                 xmppUser.setGeom(p);
                 xmppUser.setPassword("password");
-//                xmppUser.setCreated_at(new Date(System.currentTimeMillis()));
-//                xmppUser.setSalt("");
-//                xmppUser.setServerkey("");
                 userRepository.save(xmppUser);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-//            i++;
         }
+        for (int f = 0; f < 0; f++) {
+            Channel channel = new Channel();
+            channel.setId((long) f);
+            int[] stream = ThreadLocalRandom.current().ints(0, 100).distinct().limit(5).toArray();
+//            channel.getUsers().add(userRepository.getOne("user" + stream[0]));
+//            channel.getUsers().add(userRepository.getOne("user" + stream[1]));
+            channel.getUsers().add(em.getReference(User.class, "user"+stream[0]));
+            channel.getUsers().add(em.getReference(User.class, "user"+stream[1]));
+//            channel.getUsers().add(userRepository.getOne("user"+(f+1)));
+            try {
+                channelRepository.save(channel);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+//
+
+
 
 //        Like l = new Like("1","2",true);
 //        l.setL(false);

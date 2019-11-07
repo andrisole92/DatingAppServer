@@ -84,7 +84,7 @@ public class User extends DateAudit implements Serializable {
     @JsonIgnore
     private Set<Role> roles = new HashSet<>();
 
-    @Column(name = "geom", columnDefinition = "point")
+    @Column(name = "geom", columnDefinition = "GEOMETRY(Point, 26910)")
     @JsonIgnore
     @JsonSerialize(using = PointToJsonSerializer.class)
     @JsonDeserialize(using = JsonToPointDeserializer.class)

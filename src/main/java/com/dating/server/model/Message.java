@@ -1,14 +1,19 @@
 package com.dating.server.model;
 
+
 import com.dating.server.model.audit.DateAudit;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Data
 @Entity // This tells Hibernate to make a table out of this class
-@Table(name = "_message")
+@Table(
+        name="_message",
+        indexes = {
+                @Index(name = "_message_INDEX_0", columnList = "_channel_id")})
 public class Message extends DateAudit {
 
     @Id
@@ -21,6 +26,8 @@ public class Message extends DateAudit {
     @JoinColumn(name = "_sender_username", referencedColumnName = "username")
     private User user;
 
+    @Size(max = 3000)
+    @Column(columnDefinition = "TEXT")
     private String body;
     private String type;
     private String subject;

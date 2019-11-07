@@ -4,7 +4,9 @@ import com.dating.server.model.audit.DateAudit;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -18,10 +20,10 @@ public class Channel extends DateAudit {
     private Long id;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "_channel_users",
+    @JoinTable(name = "_channel_user",
             inverseJoinColumns = @JoinColumn(name = "user_id"),
             joinColumns = @JoinColumn(name = "channel_id"))
-    private Set<User> users = new HashSet<User>();
+    private List<User> users = new ArrayList<User>();
 
 
 //    @ManyToMany(mappedBy = "channel")
