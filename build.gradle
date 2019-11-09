@@ -1,3 +1,13 @@
+buildscript {    // Configuration for building
+    repositories {
+        jcenter()    // Bintray's repository - a fast Maven Central mirror & more
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.google.cloud.tools:appengine-gradle-plugin:1.+'    // Latest 1.x.x release
+    }
+}
+
 plugins {
     id 'org.asciidoctor.convert' version '1.5.3'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
@@ -6,7 +16,9 @@ plugins {
 
     id 'java'
 }
-
+apply plugin: 'java'                              // standard Java tasks
+apply plugin: 'war'                               // standard Web Archive plugin
+apply plugin: 'com.google.cloud.tools.appengine'  // App Engine tasks
 apply plugin: 'io.spring.dependency-management'
 
 group = 'com.dating'
@@ -23,8 +35,12 @@ configurations {
     }
 }
 
-repositories {
+repositories {   // repositories for Jar's you access in your code
+    maven {
+        url 'https://oss.sonatype.org/content/repositories/snapshots' // SNAPSHOT repository (if needed)
+    }
     mavenCentral()
+    jcenter()
 }
 
 ext {
@@ -32,12 +48,20 @@ ext {
 }
 
 dependencies {
+    implementation 'com.google.appengine:appengine-api-1.0-sdk:+'  // Latest App Engine Api's
+    providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
+
+    compile 'jstl:jstl:1.2'
 
     implementation group: "com.twilio.sdk", name: "twilio", version: "7.42.0"
 
 
     implementation 'org.springframework.boot:spring-boot-starter'
-    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-web"){
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+    }
+    implementation 'org.springframework.boot:spring-boot-starter-jetty'
+
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 //    implementation('com.arangodb:arangodb-spring-data:3.1.0')
 //    implementation('com.arangodb:arangodb-java-driver')
@@ -74,6 +98,23 @@ dependencies {
     testImplementation("org.springframework.security:spring-security-test")
 
 
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'com.google.truth:truth:0.33'
+    testImplementation 'org.mockito:mockito-all:1.10.19'
+
+    testImplementation 'com.google.appengine:appengine-testing:+'
+    testImplementation 'com.google.appengine:appengine-api-stubs:+'
+    testImplementation 'com.google.appengine:appengine-tools-sdk:+'
+}
+
+// Always run unit tests
+//appengineDeploy.dependsOn test
+//appengineStage.dependsOn test
+
+appengine {  // App Engine tasks configuration
+    deploy {   // deploy configuration
+
+    }
 }
 
 test {
@@ -86,3 +127,9 @@ asciidoctor {
     dependsOn test
 }
 
+
+group   = "com.example.appenginej8"        // Generated output GroupId
+version = "1.0-SNAPSHOT"       // Version in generated output
+
+sourceCompatibility = 1.8     // App Engine Flexible uses Java 8
+targetCompatibility = 1.8     // App Engine Flexible uses Java 8
