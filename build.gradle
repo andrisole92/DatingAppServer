@@ -89,7 +89,7 @@ test {
     outputs.dir snippetsDir
 }
 
-task stage(type: Copy, dependsOn: [clean, build]) {
+task stage(type: Copy, dependsOn: [build]) {
     from jar.archivePath
     into project.rootDir
     rename {
