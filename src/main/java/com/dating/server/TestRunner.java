@@ -104,7 +104,7 @@ public class TestRunner implements CommandLineRunner {
 
 //
 
-        for (int u = 0; u < 1000; u++) {
+        for (int u = 0; u < 0; u++) {
             try {
                 User xmppUser = new User();
                 xmppUser.setUsername("user" + u);
@@ -121,7 +121,7 @@ public class TestRunner implements CommandLineRunner {
                 e.printStackTrace();
             }
         }
-        for (int f = 0; f < 2000; f++) {
+        for (int f = 0; f < 0; f++) {
             Channel channel = new Channel();
             channel.setId((long) f);
             int[] stream = ThreadLocalRandom.current().ints(0, 30).distinct().limit(2).toArray();
@@ -137,12 +137,12 @@ public class TestRunner implements CommandLineRunner {
             }
         }
 //
-        for (int f = 0; f < 0; f++) {
+        for (int f = 0; f < 0git add .; f++) {
 //            int[] stream = ThreadLocalRandom.current().ints(0, 1000).distinct().limit(1).toArray();
 //
 //            Channel c = channelRepository.getOne(s)
             Message message = new Message();
-            int[] stream = ThreadLocalRandom.current().ints(1, 1999).distinct().limit(2).toArray();
+            int[] stream = ThreadLocalRandom.current().ints(1, 100).distinct().limit(2).toArray();
             Channel channel = em.getReference(Channel.class, (long) stream[0]);
             message.setSender(channel.getUsers().get(ThreadLocalRandom.current().nextInt(0, 1 + 1)).getUsername());
             message.setChannel(channel);
