@@ -137,7 +137,7 @@ public class TestRunner implements CommandLineRunner {
             }
         }
 //
-        for (int f = 0; f < 0git add .; f++) {
+        for (int f = 0; f < 0; f++) {
 //            int[] stream = ThreadLocalRandom.current().ints(0, 1000).distinct().limit(1).toArray();
 //
 //            Channel c = channelRepository.getOne(s)
