@@ -2,12 +2,10 @@ plugins {
     id 'org.asciidoctor.convert' version '1.5.3'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'org.springframework.boot' version '2.1.6.RELEASE'
-//    id 'org.springframework.boot' version '2.2.0.RC1'
-
     id 'java'
 }
-apply plugin: 'java'                              // standard Java tasks
-apply plugin: 'war'                               // standard Web Archive plugin
+//apply plugin: 'java'                              // standard Java tasks
+//apply plugin: 'war'                               // standard Web Archive plugin
 apply plugin: 'io.spring.dependency-management'
 
 group = 'com.dating'
@@ -24,16 +22,16 @@ configurations {
     }
 }
 
-repositories {   // repositories for Jar's you access in your code
-    maven {
-        url 'https://oss.sonatype.org/content/repositories/snapshots' // SNAPSHOT repository (if needed)
-    }
+repositories {
     mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
     jcenter()
 }
 
 ext {
-    set('snippetsDir', file("build/generated-snippets"))
+    set('springCloudVersion', "Hoxton.RC1")
+
+//    set('snippetsDir', file("build/generated-snippets"))
 }
 
 dependencies {
@@ -85,21 +83,21 @@ dependencies {
     testImplementation("org.springframework.security:spring-security-test")
 }
 
-test {
-    outputs.dir snippetsDir
-}
-
-task stage(type: Copy, dependsOn: [clean, build]) {
-    from jar.archivePath
-    into project.rootDir
-    rename {
-        'app.jar'
-    }
-}
-stage.mustRunAfter(clean)
-
-clean {
-    doLast{
-        project.file('app.jar').delete()
-    }
-}
+//test {
+//    outputs.dir snippetsDir
+//}
+//
+//task stage(type: Copy, dependsOn: [clean, build]) {
+//    from jar.archivePath
+//    into project.rootDir
+//    rename {
+//        'app.jar'
+//    }
+//}
+//stage.mustRunAfter(clean)
+//
+//clean {
+//    doLast{
+//        project.file('app.jar').delete()
+//    }
+//}
