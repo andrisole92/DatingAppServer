@@ -30,7 +30,6 @@ repositories {
 
 ext {
     set('springCloudVersion', "Hoxton.RC1")
-
 //    set('snippetsDir', file("build/generated-snippets"))
 }
 

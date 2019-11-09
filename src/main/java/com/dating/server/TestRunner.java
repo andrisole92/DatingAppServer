@@ -104,7 +104,7 @@ public class TestRunner implements CommandLineRunner {
 
 //
 
-        for (int u = 0; u < 100; u++) {
+        for (int u = 0; u < 0; u++) {
             try {
                 User xmppUser = new User();
                 xmppUser.setUsername("user" + u);
@@ -121,7 +121,7 @@ public class TestRunner implements CommandLineRunner {
                 e.printStackTrace();
             }
         }
-        for (int f = 0; f < 100; f++) {
+        for (int f = 0; f < 0; f++) {
             Channel channel = new Channel();
             channel.setId((long) f);
             int[] stream = ThreadLocalRandom.current().ints(0, 30).distinct().limit(2).toArray();
