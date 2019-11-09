@@ -89,7 +89,7 @@ test {
     outputs.dir snippetsDir
 }
 
-task stage(type: Copy, dependsOn: [build]) {
+task stage(type: Copy, dependsOn: [clean, build]) {
     from jar.archivePath
     into project.rootDir
     rename {
@@ -98,8 +98,8 @@ task stage(type: Copy, dependsOn: [build]) {
 }
 stage.mustRunAfter(clean)
 
-//clean {
-//    doLast{
-//        project.file('app.jar').delete()
-//    }
-//}
+clean {
+    doLast{
+        project.file('app.jar').delete()
+    }
+}
