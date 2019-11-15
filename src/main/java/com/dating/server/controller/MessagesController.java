@@ -8,24 +8,20 @@ import com.dating.server.repository.ChannelRepository;
 import com.dating.server.model.Message;
 import com.dating.server.repository.MessagesRepository;
 import com.dating.server.repository.UserRepository;
-import com.dating.server.security.UserPrincipal;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.Optional;
 
+@Tag(name = "Messages")
 @RestController
 @CrossOrigin(origins = "http://localhost:8100")
 @RequestMapping("message")
@@ -50,7 +46,7 @@ public class MessagesController {
     }
 
 
-    @RequestMapping(value = "/send_message", method = RequestMethod.POST)
+    @RequestMapping(value = "/send", method = RequestMethod.POST)
     @ResponseBody
     @PreAuthorize("hasRole('USER')")
     @Transactional

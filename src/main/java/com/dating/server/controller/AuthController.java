@@ -12,11 +12,7 @@ import com.dating.server.payload.SignUpRequest;
 import com.dating.server.repository.RoleRepository;
 import com.dating.server.repository.UserRepository;
 import com.dating.server.security.JwtTokenProvider;
-//import com.dating.server.service.AuthService;
-//import com.dating.server.Xmpp.DataJpa.XmppUser;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,27 +20,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.Collections;
 
+@Tag(name = "Auth")
 @RestController
 @CrossOrigin(origins = "http://localhost:8100")
 @RequestMapping("auth2")
 @CommonsLog(topic = "AuthController")
 public class AuthController {
-
-//    @Autowired
-//    AuthService authService;
 
     @Autowired
     UserRepository userRepository;
@@ -60,11 +51,6 @@ public class AuthController {
 
     @Autowired
     JwtTokenProvider tokenProvider;
-
-//    public AuthController(XmppUserRepository xmppUserRepository, AuthenticationManager authManager) {
-//        this.userRepository = xmppUserRepository;
-//        this.authenticationManager = authManager;
-//    }
 
     @RequestMapping("/")
     public String index() {

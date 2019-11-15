@@ -6,6 +6,7 @@ package com.dating.server.controller;
 import com.dating.server.model.User;
 import com.dating.server.repository.MatchRepository;
 import com.dating.server.security.UserPrincipal;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
+@Tag(name = "Match")
 @RestController
 @CrossOrigin(origins = "http://localhost:8100")
 @RequestMapping("match")
@@ -21,11 +23,6 @@ public class MatchController {
 
     @Autowired
     MatchRepository matchRepository;
-
-//    @RequestMapping("/")
-//    public String index() {
-//        return "Greetings from Matches Controller!";
-//    }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody

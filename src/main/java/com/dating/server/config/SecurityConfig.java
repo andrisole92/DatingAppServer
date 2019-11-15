@@ -3,7 +3,6 @@ package com.dating.server.config;
 import com.dating.server.security.JwtAuthenticationEntryPoint;
 import com.dating.server.security.JwtAuthenticationFilter;
 import com.dating.server.security.MyUserDetailsService;
-import com.google.common.collect.ImmutableList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,13 +16,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-
-import java.util.List;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -39,17 +31,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
         return new JwtAuthenticationFilter();
     }
-
-//    @Bean
-//    public AuthenticationPrincipalArgumentResolver authenticationPrincipalArgumentResolver(){
-//        return new AuthenticationPrincipalArgumentResolver();
-//    }
-
-//
-//    @Override
-//    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-//        argumentResolvers.add(authenticationPrincipalArgumentResolver());
-//    }
 
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
@@ -68,11 +49,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-//
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.authenticationProvider(authProvider);
-//    }
 
 
     @Override
@@ -114,6 +90,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.html",
                         "/**/*.css",
                         "/**/*.js")
+                .permitAll()
+                .antMatchers("/v3/**")
                 .permitAll()
                 .antMatchers("/auth2/**")
                 .permitAll()
