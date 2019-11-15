@@ -1,17 +1,10 @@
 package com.dating.server.payload;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotBlank;
-
-/**
- * Created by rajeevkumarsingh on 02/08/17.
- */
 @Data
 public class UserSearchRequest {
-
-    @NotBlank
-    private String likedUsername;
-
-    private boolean like;
+    @Length(min = 2, max = 2)
+    private int[] age = {18,99};
 }

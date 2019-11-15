@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 //                name = "Apache 2.0",
 //                url = "http://www.apache.org/licenses/LICENSE-2.0"
 //        )
-), servers = @Server(description = "Player2 API", url = "35.226.77.80"))
+), servers = @Server(description = "Player2 API", url = "/"))
 @Component
 public class PlayerTwoSwaggerConfig {
 }

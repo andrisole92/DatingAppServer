@@ -8,6 +8,7 @@ import com.dating.server.repository.ChannelRepository;
 import com.dating.server.model.Message;
 import com.dating.server.repository.MessagesRepository;
 import com.dating.server.repository.UserRepository;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ import java.security.Principal;
 @Tag(name = "Messages")
 @RestController
 @CrossOrigin(origins = "http://localhost:8100")
-@RequestMapping("message")
+@RequestMapping(name = "message", consumes = {"application/json"}, produces = {"application/json"})
 @CommonsLog(topic = "MessagesController")
 public class MessagesController {
     @Autowired
@@ -46,8 +47,7 @@ public class MessagesController {
     }
 
 
-    @RequestMapping(value = "/send", method = RequestMethod.POST)
-    @ResponseBody
+    @PostMapping(value = "/send")
     @PreAuthorize("hasRole('USER')")
     @Transactional
     public ResponseEntity<?> send_message(
