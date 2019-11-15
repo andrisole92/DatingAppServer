@@ -1,4 +1,4 @@
-package com.dating.server.payload;
+package com.dating.server.payload.response;
 
 /**
  * Created by rajeevkumarsingh on 19/08/17.

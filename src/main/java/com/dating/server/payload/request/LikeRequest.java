@@ -1,4 +1,4 @@
-package com.dating.server.payload;
+package com.dating.server.payload.request;
 
 import lombok.Data;
 

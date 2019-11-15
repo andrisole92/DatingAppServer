@@ -2,13 +2,12 @@ package com.dating.server.controller;
 
 
 import com.dating.server.model.Channel;
-import com.dating.server.payload.ApiResponse;
-import com.dating.server.payload.SendMessageRequest;
+import com.dating.server.payload.response.ApiResponse;
+import com.dating.server.payload.request.SendMessageRequest;
 import com.dating.server.repository.ChannelRepository;
 import com.dating.server.model.Message;
 import com.dating.server.repository.MessagesRepository;
 import com.dating.server.repository.UserRepository;
-import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.beans.factory.annotation.Autowired;

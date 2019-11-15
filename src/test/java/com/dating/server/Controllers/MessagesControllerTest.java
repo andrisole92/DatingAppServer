@@ -1,7 +1,7 @@
 //package com.dating.server.Controllers;
 //
 //
-//import com.dating.server.payload.SendMessageRequest;
+//import com.dating.server.payload.request.SendMessageRequest;
 //import com.fasterxml.jackson.databind.ObjectMapper;
 //import lombok.extern.apachecommons.CommonsLog;
 //import org.apache.commons.logging.Log;

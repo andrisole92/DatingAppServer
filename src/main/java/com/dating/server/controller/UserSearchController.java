@@ -1,20 +1,25 @@
 package com.dating.server.controller;
 
 
-import com.dating.server.payload.ApiResponse;
-import com.dating.server.payload.UserSearchRequest;
+import com.dating.server.dto.GeoIP;
+import com.dating.server.payload.response.ApiResponse;
+import com.dating.server.payload.request.UserSearchRequest;
 import com.dating.server.repository.UserRepository;
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import com.dating.server.service.GeoIpService;
+import com.maxmind.geoip2.exception.GeoIp2Exception;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.io.IOException;
 
 @Tag(name = "User Search")
 @RestController
@@ -26,10 +31,16 @@ public class UserSearchController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    GeoIpService geoIpService;
+
     @GetMapping(value = "/")
     @Transactional
     @Operation(summary = "Search users obviously")
-    public ResponseEntity<?> index(@Valid @RequestBody UserSearchRequest userSearchRequest) {
+    public ResponseEntity<?> index(@Valid @RequestBody UserSearchRequest userSearchRequest) throws IOException, GeoIp2Exception {
+        String ip = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+                .getRequest().getRemoteAddr();
+        GeoIP geoIP = geoIpService.getLocation(ip);
         return ResponseEntity.ok().body(new ApiResponse(true, "User registered successfully"));
     }
 
