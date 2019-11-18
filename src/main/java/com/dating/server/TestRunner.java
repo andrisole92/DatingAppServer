@@ -1,6 +1,7 @@
 package com.dating.server;
 
 
+import com.dating.server.exception.AppException;
 import com.dating.server.model.*;
 import com.dating.server.twiliowrapper.TwilioSMS;
 import com.dating.server.repository.*;
@@ -19,10 +20,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Collections;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
@@ -37,6 +40,8 @@ public class TestRunner implements CommandLineRunner {
 //    private CharacterRepository repository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private RoleRepository roleRepository;
     @Autowired
     private MatchRepository matchRepository;
     @Autowired
@@ -103,8 +108,8 @@ public class TestRunner implements CommandLineRunner {
 
 
 //
-
-        for (int u = 0; u < 0; u++) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        for (int u = 0; u < 100; u++) {
             try {
                 User xmppUser = new User();
                 xmppUser.setUsername("user" + u);
@@ -112,10 +117,13 @@ public class TestRunner implements CommandLineRunner {
                 Point p = geometryFactory.createPoint(new Coordinate(faker.number().randomDouble(2, x, x + 4), faker.number().randomDouble(2, y, y + 4)));
 //                p.setSRID(3857);
                 p.setSRID(26910);
+                Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+                        .orElseThrow(() -> new AppException("User Role not set."));
 
+                xmppUser.setRoles(Collections.singleton(userRole));
 
                 xmppUser.setGeom(p);
-                xmppUser.setPassword("password");
+                xmppUser.setPassword(passwordEncoder.encode("password"));
                 userRepository.save(xmppUser);
             } catch (Exception e) {
                 e.printStackTrace();

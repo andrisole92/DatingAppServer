@@ -18,6 +18,8 @@ import java.util.stream.Collectors;
 public class UserPrincipal implements UserDetails, Serializable {
 
 
+    private Long id;
+
     private String name;
 
     private String username;
@@ -31,7 +33,8 @@ public class UserPrincipal implements UserDetails, Serializable {
     @JsonIgnore
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserPrincipal(String name, String username, String email, String password, Collection<? extends GrantedAuthority> authorities) {
+    public UserPrincipal(Long id, String name, String username, String email, String password, Collection<? extends GrantedAuthority> authorities) {
+        this.id = id;
         this.name = name;
         this.username = username;
         this.email = email;
@@ -45,6 +48,7 @@ public class UserPrincipal implements UserDetails, Serializable {
         ).collect(Collectors.toList());
 
         return new UserPrincipal(
+                user.getId(),
                 user.getName(),
                 user.getUsername(),
                 user.getEmail(),
@@ -81,12 +85,17 @@ public class UserPrincipal implements UserDetails, Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserPrincipal that = (UserPrincipal) o;
-        return Objects.equals(username, that.username);
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
 
         return Objects.hash(username);
+    }
+
+    @Override
+    public String getUsername(){
+        return this.id.toString();
     }
 }

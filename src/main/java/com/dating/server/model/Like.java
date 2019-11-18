@@ -2,12 +2,14 @@ package com.dating.server.model;
 
 import com.dating.server.model.audit.DateAudit;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "_like")
@@ -16,31 +18,31 @@ import java.util.Objects;
 public class Like extends DateAudit implements Serializable {
 
     @Id
-    private String senderUsername;
+    private Long senderId;
     @Id
-    private String likedUsername;
+    private Long likedId;
     private boolean l;
 
     public Like(){
 
     }
 
-    public Like(String senderUsername, String likedUsername, boolean l) {
-        this.senderUsername = senderUsername;
-        this.likedUsername = likedUsername;
+    public Like(Long senderId, Long likedId, boolean l) {
+        this.senderId = senderId;
+        this.likedId = likedId;
         this.l = l;
     }
 
     public static class LikeId implements Serializable {
 
-        @Getter private String senderUsername;
-        @Getter private String likedUsername;
+        @Getter private Long senderId;
+        @Getter private Long likedId;
 
         public LikeId() {}
 
-        public LikeId(String senderUsername, String likedUsername) {
-            this.senderUsername = senderUsername;
-            this.likedUsername = likedUsername;
+        public LikeId(Long senderId, Long likedId) {
+            this.senderId = senderId;
+            this.likedId = likedId;
         }
 
         @Override
@@ -53,13 +55,13 @@ public class Like extends DateAudit implements Serializable {
                 return false;
             }
             LikeId likeId = (LikeId) o;
-            return (Objects.equals(senderUsername, likeId.getSenderUsername()) &&
-                    Objects.equals(likedUsername, likeId.getLikedUsername())) || (Objects.equals(senderUsername, likedUsername));
+            return (Objects.equals(senderId, likeId.getSenderId()) &&
+                    Objects.equals(likedId, likeId.getLikedId())) || (Objects.equals(senderId, likeId));
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(senderUsername, likedUsername);
+            return Objects.hash(senderId, likedId);
         }
     }
 

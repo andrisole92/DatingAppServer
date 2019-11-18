@@ -7,7 +7,7 @@ public class ApiResponse {
     private Boolean success;
     private Object message;
 
-    public ApiResponse(Boolean success, String message) {
+    public ApiResponse(Boolean success, Object message) {
         this.success = success;
         this.message = message;
     }

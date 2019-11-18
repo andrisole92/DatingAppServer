@@ -44,17 +44,17 @@ import java.util.Set;
         })
 })
 public class User extends DateAudit implements Serializable {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
 //    @NotBlank
     @Size(max = 40)
     private String name;
 
 
-    @Id
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+//    @Id
+//    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @NotBlank
     @Size(max = 15)
     private String username;

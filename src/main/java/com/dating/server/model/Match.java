@@ -2,6 +2,7 @@ package com.dating.server.model;
 
 import com.dating.server.model.audit.DateAudit;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
@@ -10,6 +11,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "_match")
@@ -17,17 +19,19 @@ import java.util.Objects;
 @Embeddable
 public class Match extends DateAudit implements Serializable {
 
-//    @Column(columnDefinition = "serial")
+    //    @Column(columnDefinition = "serial")
 //    @Generated(GenerationTime.INSERT)
-//    private String id;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    private Long id;
 
     @Id
-    private String uid1;
+    private Long uid1;
     @Id
-    private String uid2;
+    private Long uid2;
 
     // the person who swiped first
-    private String initiatorUid;
+    private Long initiatorUid;
 
     // indicates of conversation is started
     private boolean haveConversation;
@@ -36,11 +40,11 @@ public class Match extends DateAudit implements Serializable {
     @JoinColumn(name = "_channel_id", referencedColumnName = "id")
     private Channel channel;
 
-    public Match(){
+    public Match() {
 
     }
 
-    public Match(String uid1, String uid2, Channel channel){
+    public Match(Long uid1, Long uid2, Channel channel) {
         this.uid1 = uid1;
         this.uid2 = uid2;
         this.channel = channel;
@@ -49,14 +53,14 @@ public class Match extends DateAudit implements Serializable {
     public static class MatchId implements Serializable {
 
         @Getter
-        private String uid1;
+        private Long uid1;
         @Getter
-        private String uid2;
+        private Long uid2;
 
         public MatchId() {
         }
 
-        public MatchId(String uid1, String uid2) {
+        public MatchId(Long uid1, Long uid2) {
             this.uid1 = uid1;
             this.uid2 = uid2;
         }

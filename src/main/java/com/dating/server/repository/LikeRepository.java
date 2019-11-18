@@ -14,23 +14,23 @@ public interface LikeRepository extends JpaRepository<Like, Like.LikeId> {
 
     // Paid Feature
     @Modifying
-    @Query("update Like l set l.l = ?1, l.senderUsername = ?2 where l.likedUsername = ?3")
-    void updateUserLike(boolean like, String senderUsername, String likedUsername);
+    @Query("update Like l set l.l = ?1, l.senderId = ?2 where l.likedId = ?3")
+    void updateUserLike(boolean like, String senderId, String likedId);
 
-    List<Like> findBysenderUsernameAndL(String senderUsername, boolean l);
+    List<Like> findBysenderIdAndL(String senderId, boolean l);
 
 
-    List<Like> findBylikedUsernameAndL(String likedUsername, boolean l);
+    List<Like> findBylikedIdAndL(String likedId, boolean l);
 
-    @Query(value = "SELECT DISTINCT l1.senderUsername, l1.likedUsername, l1.l, u.full_name from Like l1 " +
+    @Query(value = "SELECT DISTINCT l1.senderId, l1.likedId, l1.l, u.full_name from Like l1 " +
             "INNER JOIN User u " +
-            "ON u.username = l1.senderUsername " +
-            "WHERE NOT EXISTS (SELECT l.senderUsername FROM Like l WHERE l.senderUsername = l1.likedUsername AND l.likedUsername = l1.senderUsername) AND l1.likedUsername = ?1 AND l1.l IS TRUE")
-    List<User> findUsersWholLikeMe(String username);
+            "ON u.username = l1.senderId " +
+            "WHERE NOT EXISTS (SELECT l.senderId FROM Like l WHERE l.senderId = l1.likedId AND l.likedId = l1.senderId) AND l1.likedId = ?1 AND l1.l IS TRUE")
+    List<User> findUsersWholLikeMe(Long username);
 
 
-    @Query(value = "SELECT l1 from Like l1 inner join Like l2 ON l1.likedUsername = l2.senderUsername AND l2.senderUsername = l1.likedUsername where l1.senderUsername = ?1", nativeQuery = false)
-    List<Like> getMatchesAsLikes(String username);
+    @Query(value = "SELECT l1 from Like l1 inner join Like l2 ON l1.likedId = l2.senderId AND l2.senderId = l1.likedId where l1.senderId = ?1", nativeQuery = false)
+    List<Like> getMatchesAsLikes(Long username);
 
 
 }

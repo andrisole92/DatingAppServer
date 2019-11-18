@@ -16,9 +16,6 @@ import java.security.Key;
 
 import java.util.Date;
 
-/**
- * Created by rajeevkumarsingh on 19/08/17.
- */
 @Component
 public class JwtTokenProvider {
 //    @Value("${jwt.token.secret}")
@@ -42,7 +39,7 @@ public class JwtTokenProvider {
 //        Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
         return Jwts.builder()
-                .setSubject(userPrincipal.getUsername())
+                .setSubject(Long.toString(userPrincipal.getId()))
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
                 .signWith(getSigningKey())
@@ -58,14 +55,14 @@ public class JwtTokenProvider {
         return Long.parseLong(claims.getSubject());
     }
 
-    public String getUsernameFromJWT(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(jwtSecret)
-                .parseClaimsJws(token)
-                .getBody();
-
-        return claims.getSubject();
-    }
+//    public String getUsernameFromJWT(String token) {
+//        Claims claims = Jwts.parser()
+//                .setSigningKey(jwtSecret)
+//                .parseClaimsJws(token)
+//                .getBody();
+//
+//        return claims.getSubject();
+//    }
 
     public boolean validateToken(String authToken) {
         try {

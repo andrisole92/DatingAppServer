@@ -2,7 +2,7 @@ package com.dating.server.payload.request;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by rajeevkumarsingh on 02/08/17.
@@ -10,8 +10,8 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class LikeRequest {
 
-    @NotBlank
-    private String likedUsername;
+    @NotNull
+    private Long userId;
 
     private boolean like;
 }
