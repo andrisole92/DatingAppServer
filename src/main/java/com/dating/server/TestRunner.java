@@ -112,7 +112,7 @@ public class TestRunner implements CommandLineRunner {
         for (int u = 0; u < 100; u++) {
             try {
                 User xmppUser = new User();
-                xmppUser.setUsername("user" + u);
+                xmppUser.setUsername("ur" + u);
                 xmppUser.setFull_name(faker.name().fullName());
                 Point p = geometryFactory.createPoint(new Coordinate(faker.number().randomDouble(2, x, x + 4), faker.number().randomDouble(2, y, y + 4)));
 //                p.setSRID(3857);

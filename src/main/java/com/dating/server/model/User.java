@@ -1,5 +1,4 @@
 package com.dating.server.model;
-
 import com.dating.server.model.audit.DateAudit;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonGenerator;
