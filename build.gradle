@@ -58,6 +58,7 @@ dependencies {
 //    implementation group: 'org.springframework.security', name: 'spring-security-messaging', version: '4.0.1.RELEASE'
 
 //    compile group: 'org.springframework.security', name: 'spring-security-web', version: '5.0.4.RELEASE'
+    compile group: 'com.github.ua-parser', name: 'uap-java', version: '1.4.0'
     compile group: 'com.google.guava', name: 'guava', version: 'r05'
     compile 'io.springfox:springfox-swagger2:2.7.0'
     compile 'io.springfox:springfox-swagger-ui:2.7.0'

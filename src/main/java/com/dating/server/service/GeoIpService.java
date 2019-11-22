@@ -38,6 +38,10 @@ public class GeoIpService {
                 response.getLocation().getLongitude().toString();
         return new GeoIP(ip, cityName, latitude, longitude);
     }
+
+    public DatabaseReader getDbReader() {
+        return dbReader;
+    }
 }
 
 

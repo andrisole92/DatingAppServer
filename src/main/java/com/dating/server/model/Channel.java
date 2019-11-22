@@ -2,6 +2,7 @@ package com.dating.server.model;
 
 import com.dating.server.model.audit.DateAudit;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -9,10 +10,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "_channel")
-@Embeddable
 public class Channel extends DateAudit {
 
     @Id

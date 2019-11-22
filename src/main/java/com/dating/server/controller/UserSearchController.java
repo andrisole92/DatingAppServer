@@ -39,7 +39,7 @@ public class UserSearchController {
 
     @GetMapping(value = "/")
     @Transactional
-    @Operation(summary = "Search users obviously")
+//    @Operation(summary = "Search users obviously")
     public ResponseEntity<?> index() throws IOException, GeoIp2Exception, AddressNotFoundException {
         GeoIP geoIP = null;
         String ip = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
