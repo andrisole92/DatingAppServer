@@ -113,6 +113,8 @@ public class User extends DateAudit implements Serializable {
         this.password = password;
     }
 
+    public void getTest(){}
+
 
 }
 

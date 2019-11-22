@@ -3,11 +3,13 @@ package com.dating.server.model;
 
 import com.dating.server.model.audit.DateAudit;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Entity // This tells Hibernate to make a table out of this class
 @Table(
